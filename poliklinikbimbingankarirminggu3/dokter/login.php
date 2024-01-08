@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     .card-body {
-        padding: 20px;
+        padding: 30px;
         border: 1px solid #ccc;
         border-radius: 5px;
     }
@@ -100,9 +100,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body style="background-image: url('images/bgdokter.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <?php include_once("koneksi.php"); ?>
     <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <div class="card">
                     <div class="card-header text-center" style="font-weight: bold; font-size: 32px; background-color: black; ">Login</div>
                     <div class="card-body">
                         <form method="POST" action="index.php?page=login">

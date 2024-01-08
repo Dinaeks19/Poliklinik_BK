@@ -37,6 +37,8 @@ if (!isset($_SESSION['username'])) {
     $hari = '';
     $jam_mulai = '';
     $jam_selesai = '';
+    $aktif = '';
+
     if (isset($_GET['id'])) {
         $ambil = mysqli_query($mysqli, 
         "SELECT * FROM jadwal_periksa 
@@ -52,9 +54,10 @@ if (!isset($_SESSION['username'])) {
             $hari = $row['hari'];
             $jam_mulai = $row['jam_mulai'];
             $jam_selesai = $row['jam_selesai'];
+            $aktif = $row['aktif'];
         }
     ?>
-        <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
+        <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
     <?php
     }
     ?>
@@ -74,7 +77,7 @@ if (!isset($_SESSION['username'])) {
             while ($data = mysqli_fetch_array($dokter)) {
                 $selected = ($data['id'] == $id_dokter) ? 'selected="selected"' : '';
             ?>
-                <option value="<?php echo $data['id'] ?>" <?php echo $selected ?>><?php echo $data['nama'] ?></option>
+                <option value="<?php echo $data['id']; ?>" <?php echo $selected; ?>><?php echo $data['nama']; ?></option>
             <?php
             }
             ?>
@@ -107,6 +110,15 @@ if (!isset($_SESSION['username'])) {
             <input type="time" class="form-control" name="jam_selesai" id="inputJamSelesai" placeholder="Jam Selesai" value="<?php echo $jam_selesai; ?>">
         </div>
         <div class="form-group">
+            <label for="inputAktif" class="form-label fw-bold">
+                Aktif
+            </label>
+            <select class="form-control" name="aktif" id="inputAktif">
+                <option value="Y" <?php echo ($aktif == 'Y') ? 'selected' : ''; ?>>Y</option>
+                <option value="N" <?php echo ($aktif == 'N') ? 'selected' : ''; ?>>N</option>
+            </select>
+        </div>
+        <div class="form-group">
             <button type="submit" class="btn btn-primary rounded-pill px-3" name="simpan">Simpan</button>
         </div>
     </form>
@@ -119,6 +131,7 @@ if (!isset($_SESSION['username'])) {
                 <th scope="col">Hari</th>
                 <th scope="col">Jam Mulai</th>
                 <th scope="col">Jam Selesai</th>
+                <th scope="col">Aktif</th>
                 <th scope="col">Aksi</th>
             </tr>
         </thead>
@@ -138,17 +151,18 @@ if (!isset($_SESSION['username'])) {
             while ($data = mysqli_fetch_array($result)) {
             ?>
                 <tr>
-                    <th scope="row"><?php echo $no++ ?></th>
-                    <td><?php echo $data['id_dokter'] ?></td>
-                    <td><?php echo $data['hari'] ?></td>
-                    <td><?php echo $data['jam_mulai'] ?></td>
-                    <td><?php echo $data['jam_selesai'] ?></td>
+                    <th scope="row"><?php echo $no++; ?></th>
+                    <td><?php echo $data['id_dokter']; ?></td>
+                    <td><?php echo $data['hari']; ?></td>
+                    <td><?php echo $data['jam_mulai']; ?></td>
+                    <td><?php echo $data['jam_selesai']; ?></td>
+                    <td><?php echo $data['aktif']; ?></td>
                     <td>
                         <a class="btn btn-info rounded-pill px-3" 
-                        href="jadwal_periksa.php?id=<?php echo $data['id'] ?>">Ubah
+                        href="jadwal_periksa.php?id=<?php echo $data['id']; ?>">Ubah
                         </a>
                         <a class="btn btn-danger rounded-pill px-3" 
-                        href="jadwal_periksa.php?id=<?php echo $data['id'] ?>&aksi=hapus">Hapus
+                        href="jadwal_periksa.php?id=<?php echo $data['id']; ?>&aksi=hapus">Hapus
                         </a>
                     </td>
                 </tr>
@@ -168,16 +182,18 @@ if (isset($_POST['simpan'])) {
                                         id_dokter = '" . $_POST['id_dokter'] . "',
                                         hari = '" . $_POST['hari'] . "',
                                         jam_mulai = '" . $_POST['jam_mulai'] . "',
-                                        jam_selesai = '" . $_POST['jam_selesai'] . "'
+                                        jam_selesai = '" . $_POST['jam_selesai'] . "',
+                                        aktif = '" . $_POST['aktif'] . "'
                                         WHERE
                                         id = '" . $_POST['id'] . "'");
     } else {
-        $tambah = mysqli_query($mysqli, "INSERT INTO jadwal_periksa(id_dokter, hari, jam_mulai, jam_selesai) 
+        $tambah = mysqli_query($mysqli, "INSERT INTO jadwal_periksa(id_dokter, hari, jam_mulai, jam_selesai, aktif) 
                                         VALUES ( 
                                             '" . $_POST['id_dokter'] . "',
                                             '" . $_POST['hari'] . "',
                                             '" . $_POST['jam_mulai'] . "',
-                                            '" . $_POST['jam_selesai'] . "'
+                                            '" . $_POST['jam_selesai'] . "',
+                                            '" . $_POST['aktif'] . "'
                                             )");
 
         // Check if the query was successful
